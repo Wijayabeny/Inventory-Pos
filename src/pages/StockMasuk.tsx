@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import { Plus, Search, ArrowDownToLine, Save, X, Scan } from 'lucide-react';
-import { StockMasuk as StockMasukType } from '../types';
+import { StockMasuk as StockMasukType, Barang } from '../types';
 import { generateTransactionNumber, formatRupiah, formatDate, today } from '../utils/barcode';
 import Modal from '../components/UI/Modal';
 import Pagination from '../components/UI/Pagination';
