@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import { Plus, Search, ArrowUpFromLine, Save, X, Scan, AlertTriangle } from 'lucide-react';
-import { StockKeluar as StockKeluarType } from '../types';
+import { StockKeluar as StockKeluarType, Barang } from '../types';
 import { generateTransactionNumber, formatRupiah, formatDate, today } from '../utils/barcode';
 import Modal from '../components/UI/Modal';
 import Pagination from '../components/UI/Pagination';
