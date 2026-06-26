@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — "Ledger" system
+   A precise, ink-and-paper register aesthetic for a barcode
+   inventory & POS tool. Cool neutral ink (not warm/cream),
+   one committed petrol-teal accent, and tuned semantic colors
+   so success/warning/danger/info read as one family, not a
+   stock-Tailwind rainbow. All in OKLCH.
+   ============================================================ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Slightly tighter geometry than stock Tailwind — less "bubbly SaaS" */
+  --radius-xl: 0.625rem;
+  --radius-2xl: 0.75rem;
+
+  /* ---- ink (overrides Tailwind's `slate`) ----
+     Cool neutral, whisper of blue (h255), never warm/cream.
+     400 is the AA floor (4.74:1 on white) for any text use;
+     300 and lighter are decorative/border only. */
+  --color-slate-50:  oklch(0.985 0.004 255);
+  --color-slate-100: oklch(0.960 0.007 255);
+  --color-slate-200: oklch(0.905 0.009 255);
+  --color-slate-300: oklch(0.800 0.012 255);
+  --color-slate-400: oklch(0.555 0.017 255);
+  --color-slate-500: oklch(0.465 0.019 255);
+  --color-slate-600: oklch(0.400 0.020 255);
+  --color-slate-700: oklch(0.320 0.022 255);
+  --color-slate-800: oklch(0.245 0.022 255);
+  --color-slate-900: oklch(0.185 0.020 255);
+  --color-slate-950: oklch(0.130 0.016 255);
+
+  /* ---- accent (overrides Tailwind's `indigo`) ----
+     Petrol teal — the brand color. Deliberately not
+     indigo/violet (default SaaS) or cream/terracotta (default
+     "avoid SaaS" reflex). Ties to barcode-scanner / ledger ink. */
+  --color-indigo-50:  oklch(0.960 0.025 200);
+  --color-indigo-100: oklch(0.910 0.045 200);
+  --color-indigo-200: oklch(0.830 0.065 200);
+  --color-indigo-300: oklch(0.730 0.085 200);
+  --color-indigo-400: oklch(0.620 0.105 200);
+  --color-indigo-500: oklch(0.530 0.115 200);
+  --color-indigo-600: oklch(0.450 0.115 200);
+  --color-indigo-700: oklch(0.375 0.105 200);
+  --color-indigo-800: oklch(0.300 0.085 200);
+  --color-indigo-900: oklch(0.240 0.065 200);
+  --color-indigo-950: oklch(0.160 0.045 200);
+
+  /* ---- success (overrides `emerald`) ---- */
+  --color-emerald-50:  oklch(0.960 0.035 155);
+  --color-emerald-100: oklch(0.910 0.060 155);
+  --color-emerald-200: oklch(0.840 0.085 155);
+  --color-emerald-300: oklch(0.750 0.105 155);
+  --color-emerald-400: oklch(0.650 0.125 155);
+  --color-emerald-500: oklch(0.560 0.135 155);
+  --color-emerald-600: oklch(0.470 0.130 155);
+  --color-emerald-700: oklch(0.390 0.115 155);
+  --color-emerald-800: oklch(0.310 0.090 155);
+  --color-emerald-900: oklch(0.250 0.070 155);
+
+  /* ---- warning (overrides `amber`) ---- */
+  --color-amber-50:  oklch(0.970 0.035 75);
+  --color-amber-100: oklch(0.930 0.060 75);
+  --color-amber-200: oklch(0.870 0.090 75);
+  --color-amber-400: oklch(0.760 0.135 75);
+  --color-amber-500: oklch(0.700 0.150 75);
+  --color-amber-600: oklch(0.620 0.155 75);
+  --color-amber-700: oklch(0.510 0.140 75);
+  --color-amber-800: oklch(0.400 0.110 75);
+
+  /* ---- danger (overrides `red`) ---- */
+  --color-red-50:  oklch(0.960 0.025 25);
+  --color-red-100: oklch(0.910 0.050 25);
+  --color-red-200: oklch(0.840 0.080 25);
+  --color-red-400: oklch(0.640 0.170 25);
+  --color-red-500: oklch(0.565 0.190 25);
+  --color-red-600: oklch(0.500 0.190 25);
+  --color-red-700: oklch(0.420 0.170 25);
+  --color-red-800: oklch(0.340 0.140 25);
+  --color-red-900: oklch(0.280 0.110 25);
+
+  /* ---- info (overrides `blue`) ---- */
+  --color-blue-50:  oklch(0.960 0.025 250);
+  --color-blue-100: oklch(0.910 0.045 250);
+  --color-blue-200: oklch(0.830 0.065 250);
+  --color-blue-600: oklch(0.500 0.150 250);
+  --color-blue-700: oklch(0.420 0.140 250);
+  --color-blue-800: oklch(0.340 0.120 250);
+
+  /* z-index scale */
+  --z-dropdown: 30;
+  --z-sticky: 20;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-toast: 200;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
+}
+
+/* ---- Motion ---- */
+@keyframes slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in { animation: slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-in, .animate-fade-up {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---- Signature motif: barcode stripes ----
+   Used sparingly — login backdrop, sidebar wordmark, empty states.
+   Not decorative noise: it is literally what the product reads. */
+.bg-barcode-pattern {
+  background-image: repeating-linear-gradient(
+    90deg,
+    currentColor 0px, currentColor 2px,
+    transparent 2px, transparent 3px,
+    currentColor 3px, currentColor 4px,
+    transparent 4px, transparent 7px,
+    currentColor 7px, currentColor 8px,
+    transparent 8px, transparent 11px,
+    currentColor 11px, currentColor 14px,
+    transparent 14px, transparent 16px
+  );
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-slate-300); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-slate-400); }
+
+/* ---- Focus visibility (keyboard) ---- */
+:focus-visible {
+  outline: 2px solid var(--color-indigo-500);
+  outline-offset: 2px;
+}
